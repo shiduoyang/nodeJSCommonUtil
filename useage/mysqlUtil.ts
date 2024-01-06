@@ -1,4 +1,4 @@
-import { mysqlUtil } from "../src/services/mysqlUtil";
+import { mysqlUtil } from "../src/db/mysqlUtil";
 import fs from 'fs';
 
 async function linkWithoutJumperServer() {
