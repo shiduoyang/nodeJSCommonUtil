@@ -9,9 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/amqplib": "^0.10.4",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node-xlsx": "^0.21.0",
     "@types/ssh2": "^1.11.18",
+    "amqplib": "^0.10.3",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.5",
     "node-xlsx": "^0.23.0",
