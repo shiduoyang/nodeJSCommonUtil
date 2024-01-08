@@ -28,6 +28,21 @@ class MysqlUtil {
     });
   }
 
+  insertAsync(mysqlConnection: Connection, sql: string, values: any[]) {
+    return new Promise((res, rej) => {
+      mysqlConnection.execute(
+        sql,
+        values,
+        (err: any, rows: any, fields: any) => {
+          if (err) {
+            return rej(err);
+          }
+          return res(rows);
+        },
+      );
+    });
+  }
+
   getConnection(
     params: MysqlConnectionParam,
   ): Promise<{ mysqlConnection: Connection; closeConnection: Function }> {
