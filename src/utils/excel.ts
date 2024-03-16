@@ -27,12 +27,13 @@ class ExcelUtil {
   }
 
   // 将数据保存到excel文件中
-  public saveExcelData(excelFilePath: string, excelData: { sheetName: string, row0: string[], data: { [k: string]: any }[] }[]) {
+  public saveExcelData(excelFilePath: string, excelData: { sheetName: string, data: { [k: string]: any }[] }[]) {
     const buffer = xlsx.build(excelData.map((sheet) => {
+      const row0 = Object.keys(sheet.data[0]);
       return {
         name: sheet.sheetName,
-        data: [sheet.row0].concat(sheet.data.map((row) => {
-          return sheet.row0.map((col) => row[col]);
+        data: [row0].concat(sheet.data.map((row) => {
+          return row0.map((col) => row[col]);
         })),
         options: {},
       }
