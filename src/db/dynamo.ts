@@ -87,14 +87,15 @@ export class DynamoDBUtil {
     return this.documentClient.send(command);
   }
 
-  async findBySecondaryIndexKey(tableName: string, secondaryIndexKey: string, secondaryIndexValue: string) {
+  async findBySecondaryIndexKey(tableName: string, secondaryIndexName: string, secondaryIndexKey: string, secondaryIndexValue: any, attributesToReturn?: string[]) {
     const command = new QueryCommand({
       TableName: tableName,
-      IndexName: `${secondaryIndexKey}Index`,
+      IndexName: secondaryIndexName,
       KeyConditionExpression: `${secondaryIndexKey} = :secondaryIndexKey`,
       ExpressionAttributeValues: {
-        ":secondaryIndexKey": secondaryIndexValue,
+        ':secondaryIndexKey': secondaryIndexValue,
       },
+      ... (attributesToReturn ? { ProjectionExpression: attributesToReturn.join(', ') } : {}),
     });
     return this.documentClient.send(command);
   }
