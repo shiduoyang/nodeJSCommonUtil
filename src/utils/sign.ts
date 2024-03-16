@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import { generateKeyPairSync } from 'crypto';
 import { execSync } from 'child_process';
 
 class SignUtil {
@@ -13,8 +12,6 @@ class SignUtil {
   };
   public rs256 = {
     generateKey: () => {
-      // `openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048`;
-      // `openssl rsa -pubout -in private_key.pem -out public_key.pem`;
       execSync('openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048');
       execSync('openssl rsa -pubout -in private_key.pem -out public_key.pem');
     },
