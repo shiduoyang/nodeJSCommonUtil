@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.533.0",
+    "@aws-sdk/lib-dynamodb": "^3.535.0",
     "amqplib": "^0.10.3",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.5",
