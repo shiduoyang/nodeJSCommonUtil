@@ -91,11 +91,17 @@ export class DynamoDBUtil {
     const command = new QueryCommand({
       TableName: tableName,
       IndexName: secondaryIndexName,
-      KeyConditionExpression: `${secondaryIndexKey} = :secondaryIndexKey`,
-      ExpressionAttributeValues: {
-        ':secondaryIndexKey': secondaryIndexValue,
+      // 使用表达式属性名来避免使用保留关键字
+      KeyConditionExpression: '#dt = :gsiPkVal',
+      ExpressionAttributeNames: {
+        '#dt': secondaryIndexKey,
       },
-      ... (attributesToReturn ? { ProjectionExpression: attributesToReturn.join(', ') } : {}),
+      ExpressionAttributeValues: {
+        ':gsiPkVal': secondaryIndexValue,
+      },
+      ...(attributesToReturn
+        ? { ProjectionExpression: attributesToReturn.join(', ') }
+        : {}),
     });
     return (await this.documentClient.send(command)).Items || [];
   }
