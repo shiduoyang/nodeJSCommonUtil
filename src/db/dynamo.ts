@@ -88,22 +88,32 @@ export class DynamoDBUtil {
   }
 
   async findBySecondaryIndexKey(tableName: string, secondaryIndexName: string, secondaryIndexKey: string, secondaryIndexValue: any, attributesToReturn?: string[]) {
-    const command = new QueryCommand({
-      TableName: tableName,
-      IndexName: secondaryIndexName,
-      // 使用表达式属性名来避免使用保留关键字
-      KeyConditionExpression: '#dt = :gsiPkVal',
-      ExpressionAttributeNames: {
-        '#dt': secondaryIndexKey,
-      },
-      ExpressionAttributeValues: {
-        ':gsiPkVal': secondaryIndexValue,
-      },
-      ...(attributesToReturn
-        ? { ProjectionExpression: attributesToReturn.join(', ') }
-        : {}),
-    });
-    return (await this.documentClient.send(command)).Items || [];
+    const items: any[] = []; // 用于收集所有项目
+    let lastEvaluatedKey = undefined; // 用于分页
+    do {
+      const params = {
+        TableName: tableName,
+        IndexName: secondaryIndexName,
+        // 使用表达式属性名来避免使用保留关键字
+        KeyConditionExpression: '#dt = :gsiPkVal',
+        ExpressionAttributeNames: {
+          '#dt': secondaryIndexKey,
+        },
+        ExpressionAttributeValues: {
+          ':gsiPkVal': secondaryIndexValue,
+        },
+        ...(attributesToReturn
+          ? { ProjectionExpression: attributesToReturn.join(', ') }
+          : {}),
+        ExclusiveStartKey: lastEvaluatedKey,
+      };
+
+      const response: any = await this.documentClient.send(new QueryCommand(params));
+      items.push(...response.Items); // 将当前批次的项目添加到集合中
+
+      lastEvaluatedKey = response.LastEvaluatedKey; // 更新LastEvaluatedKey以进行下一次查询
+    } while (lastEvaluatedKey); // 如果LastEvaluatedKey存在，表示还有更多数据要查询
+    return items;
   }
 
   async updateByKey(tableName: string, keyName: string, keyValue: string, objUpdated: Record<string, any>) {
