@@ -11,7 +11,9 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.533.0",
     "@aws-sdk/lib-dynamodb": "^3.535.0",
+    "@types/async": "^3.2.24",
     "amqplib": "^0.10.3",
+    "async": "^3.2.5",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.5",
     "node-cron": "^3.0.3",
