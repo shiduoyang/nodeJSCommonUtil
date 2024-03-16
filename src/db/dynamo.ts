@@ -97,7 +97,7 @@ export class DynamoDBUtil {
       },
       ... (attributesToReturn ? { ProjectionExpression: attributesToReturn.join(', ') } : {}),
     });
-    return (await this.documentClient.send(command)).Items;
+    return (await this.documentClient.send(command)).Items || [];
   }
 
   async updateByKey(tableName: string, keyName: string, keyValue: string, objUpdated: Record<string, any>) {
