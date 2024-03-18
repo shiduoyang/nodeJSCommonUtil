@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.533.0",
+    "@aws-sdk/client-sqs": "^3.535.0",
     "@aws-sdk/lib-dynamodb": "^3.535.0",
     "@types/async": "^3.2.24",
     "amqplib": "^0.10.3",
