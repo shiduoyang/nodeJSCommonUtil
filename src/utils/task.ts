@@ -1,7 +1,7 @@
 import os from 'os';
 import async from 'async';
 
-export function parallelTask(taskList: { func: any; args?: any[] }[]): Promise<any> {
+export function parallelTask(taskList: { func: any; args?: any[] }[], parallelLimit?: number): Promise<any> {
   return new Promise((res, rej) => {
     async.parallelLimit(
       taskList.map((taskInfo, index) => {
@@ -10,7 +10,7 @@ export function parallelTask(taskList: { func: any; args?: any[] }[]): Promise<a
           promise.then(resultI => callback(null, resultI)).catch(err => callback(err));
         };
       }),
-      os.cpus().length,
+      parallelLimit ? parallelLimit : (os.cpus().length),
       (err, results) => {
         if (err) {
           return rej(err);
