@@ -2,7 +2,7 @@ import fs from 'fs';
 import http from 'http';
 import https from 'https';
 
-class FileUtil {
+class UpDownloadUtil {
   private downloadTask(uri: string, dest: string, modelIns: any) {
     return new Promise((resolve, reject) => {
       // 确保dest路径存在
@@ -42,4 +42,4 @@ class FileUtil {
   }
 }
 
-export const fileUtil = new FileUtil();
+export const upDownloadUtil = new UpDownloadUtil();
