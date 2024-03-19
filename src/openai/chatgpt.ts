@@ -8,7 +8,11 @@ export class ChatgtpUtil {
     });
   }
 
-  async chat(content): Promise<string> {
+  get openAiClient() {
+    return this.openai;
+  }
+
+  async chat(content: string, model: string = 'gpt-3.5-turbo'): Promise<string> {
     const completion = await this.openai.chat.completions.create({
       messages: [
         {
@@ -16,7 +20,7 @@ export class ChatgtpUtil {
           content: content,
         },
       ],
-      model: 'gpt-3.5-turbo',
+      model,
     });
 
     if (!completion && !completion.choices[0] && !completion.choices[0].message) {
